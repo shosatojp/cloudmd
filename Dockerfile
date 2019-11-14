@@ -35,7 +35,7 @@ RUN mktexlsr
 # clone projects
 USER cloudmd
 RUN echo hogehoge
-RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git
+RUN cd /home/cloudmd && git clone "https://github.com/shosatojp/cloudmd-front.git"
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-back.git
 RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build
 RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i

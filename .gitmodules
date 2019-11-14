@@ -1,0 +1,6 @@
+[submodule "cloudmd-back"]
+	path = cloudmd-back
+	url = https://github.com/shosatojp/cloudmd-back.git
+[submodule "cloudmd-front"]
+	path = cloudmd-front
+	url = https://github.com/shosatojp/cloudmd-front.git

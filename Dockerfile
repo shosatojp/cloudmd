@@ -30,6 +30,9 @@ RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/bookta
 RUN cd /home/cloudmd && latex booktabs.ins
 RUN cd /home/cloudmd && mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
 RUN cd /home/cloudmd && rm booktabs.dtx booktabs.ins booktabs.log
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/caption.zip && \
+    unzip caption.zip && cd caption && latex caption.ins && \
+    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
 RUN mktexlsr
 
 # clone projects

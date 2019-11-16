@@ -7,7 +7,9 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     git \
-    texlive-lang-japanese
+    texlive-lang-japanese \
+    python3.8 \
+    python3-pip
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - && \
     sudo apt-get install -y nodejs
 
@@ -33,10 +35,11 @@ RUN cd /home/cloudmd && rm booktabs.dtx booktabs.ins booktabs.log
 RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/caption.zip && \
     unzip caption.zip && cd caption && latex caption.ins && \
     mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/multirow.zip && \
+    unzip multirow.zip && cd multirow && latex multirow.ins && \
+    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
 RUN mktexlsr
 
-RUN apt-get install -y python3.8 \
-    python3-pip
 # clone projects
 USER cloudmd
 ADD https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h skipcache

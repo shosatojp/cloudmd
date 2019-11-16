@@ -1,16 +1,32 @@
 # CloudMarkdown
-## Build
-```
-sudo docker build -t cloudmd:1.0 .
-sudo docker run -p 8083:8083 --name cloudmd -dit cloudmd:1.0
-sudo docker ps -a
-sudo docker exec -it cloudmd /bin/bash
-sudo docker stop cloudmd && sudo docker rm cloudmd
+https://cloudmd.monoid.app/
+
+## Features
+* Compile Markdown to PDF (md -> tex -> pdf)
+* Compile raw Tex
+
+## Default Tex Packages
+* booktabs
+* longtable
+* framed
+* amsmath
+* caption
+* hyperref
+* graphicx
+
+## Common Use Case
+1. Maintain your report directories with git.
+1. Use CloudMd only when you compile.
+
+
+
+
+## How to Build (for Developers)
+```sh
+make
 ```
 
-```
-sudo docker build -t cloudmd:1.0 .
-sudo docker run -p 8083:8083 --name cloudmd -dit cloudmd:1.0 npm run --prefix /home/cloudmd/cloudmd-back/ server 8083
-```
-
-sudo docker stop cloudmd && sudo docker rm cloudmd && sudo docker build -t cloudmd:1.0 . && sudo docker run -p 8083:8083 --name cloudmd -dit cloudmd:1.0 npm run --prefix /home/cloudmd/cloudmd-back/ server 8083
+### Dependencies
+* https://github.com/shosatojp/cloudmd-front/
+* https://github.com/shosatojp/cloudmd-back/
+* https://github.com/shosatojp/cloudmd-filter/

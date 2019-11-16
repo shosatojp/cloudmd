@@ -35,15 +35,21 @@ RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/captio
     mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
 RUN mktexlsr
 
+RUN apt-get install -y python3.8 \
+    python3-pip
 # clone projects
 USER cloudmd
 ADD https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h skipcache
+RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-filter.git
+RUN cd /home/cloudmd/cloudmd-filter && python3 -m pip install -r requirements.txt
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-back.git
-RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build
+RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build --prod
 RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i
 
-RUN cd /home/cloudmd/cloudmd-back && wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1a/linux-pandoc_2_7_3.tar.gz && tar xfv linux-pandoc_2_7_3.tar.gz
+RUN cd /home/cloudmd/cloudmd-back && \
+    wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1a/linux-pandoc_2_7_3.tar.gz && \
+    tar xfv linux-pandoc_2_7_3.tar.gz
 
 EXPOSE $port
 # ENTRYPOINT [ "npm run --prefix /home/cloudmd/cloudmd-back/ server ${port}" ] 

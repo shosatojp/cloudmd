@@ -38,6 +38,13 @@ RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/captio
 RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/multirow.zip && \
     unzip multirow.zip && cd multirow && latex multirow.ins && \
     mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+RUN cd /home/cloudmd && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/fancyvrb.sty && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/fancyvrb-ex.sty && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/hbaw.sty && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/hcolor.sty && \
+    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+
 RUN mktexlsr
 
 # clone projects

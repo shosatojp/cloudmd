@@ -16,6 +16,7 @@ https://cloudmd.monoid.app/
 * caption
 * hyperref
 * graphicx
+* fancyvrb
 
 ## Common Use Case
 1. Maintain your report directories with git.
@@ -29,7 +30,7 @@ make
 ## CLI Tool
 * https://github.com/shosatojp/cloudmd-cli/
 
-### Dependencies
+## Dependencies
 * https://github.com/shosatojp/cloudmd-front/
 * https://github.com/shosatojp/cloudmd-back/
 * https://github.com/shosatojp/cloudmd-filter/

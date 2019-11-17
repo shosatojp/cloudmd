@@ -18,13 +18,13 @@ https://cloudmd.monoid.app/
 1. Maintain your report directories with git.
 1. Use CloudMd only when you compile.
 
-
-
-
 ## How to Build (for Developers)
 ```sh
 make
 ```
+
+## CLI Tool
+* https://github.com/shosatojp/cloudmd-cli/
 
 ### Dependencies
 * https://github.com/shosatojp/cloudmd-front/

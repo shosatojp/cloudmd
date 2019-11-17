@@ -1,4 +1,7 @@
 # CloudMarkdown
+
+![](https://github.com/shosatojp/cloudmd/workflows/Docker%20Image%20CI/badge.svg)
+
 https://cloudmd.monoid.app/
 
 ## Features

@@ -24,6 +24,17 @@ RUN echo "shell_escape_commands = bibtex,bibtex8,extractbb,kpsewhich,makeindex,r
 RUN echo "openout_any = p" >> /etc/texmf/texmf.d/00debian.cnf
 RUN echo "openin_any = p" >> /etc/texmf/texmf.d/00debian.cnf
 RUN update-texmf
+
+# RUN apt-get install -y xzdec perl
+# RUN tlmgr init-usertree
+# RUN tlmgr option repository ftp://tug.org/historic/systems/texlive/2017/tlnet-final
+# RUN tlmgr install here
+# RUN tlmgr install booktabs
+# RUN tlmgr install framed
+# RUN tlmgr install caption
+# RUN tlmgr install multirow
+# RUN tlmgr install fancyvrb
+
 RUN mkdir -p /usr/share/texlive/texmf-dist/tex/latex/tools/
 RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/framed/framed.sty && \
     mv framed.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
@@ -43,7 +54,21 @@ RUN cd /home/cloudmd && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/fancyvrb-ex.sty && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/hbaw.sty && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/hcolor.sty && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/here/here.sty && \
     mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+RUN cd /home/cloudmd && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/breqn.zip && \
+    unzip breqn.zip && cd breqn && latex breqnbundle.ins && \
+    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+# RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/l3kernel.zip && \
+#     unzip l3kernel.zip && cd l3kernel && for i in *.ins;do latex $i;done && \
+#     mv * /usr/share/texlive/texmf-dist/tex/latex/tools/
+# RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/l3packages.zip && \
+#     unzip l3packages.zip && cd l3packages && for i in *.ins;do latex $i;done && \
+#     mv * /usr/share/texlive/texmf-dist/tex/latex/tools/
+# RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/l3experimental.zip && \
+#     unzip l3experimental.zip && cd l3experimental && for i in *.ins;do latex $i;done && \
+#     mv * /usr/share/texlive/texmf-dist/tex/latex/tools/
 
 RUN mktexlsr
 

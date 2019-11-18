@@ -17,6 +17,9 @@ https://cloudmd.monoid.app/
 * hyperref
 * graphicx
 * fancyvrb
+* here
+* multirow
+
 
 ## Common Use Case
 1. Maintain your report directories with git.
@@ -34,3 +37,12 @@ make
 * https://github.com/shosatojp/cloudmd-front/
 * https://github.com/shosatojp/cloudmd-back/
 * https://github.com/shosatojp/cloudmd-filter/
+
+
+```
+wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+tar xfv 
+cd 
+apt install perl
+./install-tl
+```

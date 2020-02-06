@@ -74,7 +74,7 @@ RUN mktexlsr
 
 # clone projects
 USER cloudmd
-ADD https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h skipcache
+# ADD https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h skipcache
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-filter.git
 RUN cd /home/cloudmd/cloudmd-filter && python3 -m pip install -r requirements.txt
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git

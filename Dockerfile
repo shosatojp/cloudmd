@@ -79,9 +79,8 @@ RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-filter.gi
 RUN cd /home/cloudmd/cloudmd-filter && python3 -m pip install -r requirements.txt
 
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git
-RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build --prod && npm run pdfjs
-
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-back.git
+RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build --prod && npm run pdfjs
 RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i
 RUN cd /home/cloudmd/cloudmd-back && \
     wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1a/linux-pandoc_2_7_3.tar.gz && \

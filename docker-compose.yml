@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  cloudmd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - $PORT:8080

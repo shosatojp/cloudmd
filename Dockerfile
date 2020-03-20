@@ -86,5 +86,7 @@ RUN cd /home/cloudmd/cloudmd-back && \
     wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1a/linux-pandoc_2_7_3.tar.gz && \
     tar xfv linux-pandoc_2_7_3.tar.gz
 
+RUN cd /home/cloudmd/cloudmd-back && npm run build
+CMD node /home/cloudmd/cloudmd-back/app/src/app.js
 EXPOSE $port
 # ENTRYPOINT [ "npm run --prefix /home/cloudmd/cloudmd-back/ server ${port}" ] 

@@ -1,5 +1,4 @@
 FROM ubuntu:18.04
-ARG port=8083
 # install packages
 RUN apt-get update && apt-get install -y \
     pandoc \
@@ -75,18 +74,19 @@ RUN mktexlsr
 # clone projects
 USER cloudmd
 # ADD https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h skipcache
+
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-filter.git
 RUN cd /home/cloudmd/cloudmd-filter && python3 -m pip install -r requirements.txt
-RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git
-RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-back.git
-RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build --prod && npm run pdfjs
-RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i
 
+RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git
+RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build --prod && npm run pdfjs
+
+RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-back.git
+RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i
 RUN cd /home/cloudmd/cloudmd-back && \
     wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1a/linux-pandoc_2_7_3.tar.gz && \
     tar xfv linux-pandoc_2_7_3.tar.gz
-
 RUN cd /home/cloudmd/cloudmd-back && npm run build
+
 CMD node /home/cloudmd/cloudmd-back/app/src/app.js
-EXPOSE $port
-# ENTRYPOINT [ "npm run --prefix /home/cloudmd/cloudmd-back/ server ${port}" ] 
+EXPOSE 8080

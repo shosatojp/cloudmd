@@ -11,4 +11,21 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: sudo docker build -t cloudmd:1.0 --file Dockerfile .
+      run: docker-compose build
+
+    - name: Create Key
+      run: echo "$DEPLOY_SSH_KEY" > key && chmod 600 key
+      env:
+        DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+
+    - name: Save Docker Image
+      run: docker save cloudmd -o cloudmd.tar
+
+    - name: Send Docker Image
+      run : scp -i ./key -p $PORT cloudmd.tar $USER_HOST:~/repos/cloudmd/
+
+    - name: Deploy
+      run: ssh $USER_HOST -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -p $PORT "cd repos/cloudmd && sudo docker load -i cloudmd.tar && rm cloudmd.tar && sudo docker-compose up"
+      env:
+        PORT: ${{ secrets.PORT }}
+        USER_HOST: ${{ secrets.USER_HOST }}

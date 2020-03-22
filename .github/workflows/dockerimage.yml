@@ -36,6 +36,9 @@ jobs:
 
     - name: Login to DockerHub
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     
     - name: Create Docker Tag
       run: docker tag cloudmd_cloudmd:latest shosatojp/cloudmd:latest

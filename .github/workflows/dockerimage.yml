@@ -23,7 +23,7 @@ jobs:
         DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
     - name: Save Docker Image
-      run: docker save cloudmd -o cloudmd.tar
+      run: docker save cloudmd_cloudmd:latest -o cloudmd.tar
 
     - name: Send Docker Image
       run : scp -i ./key -p $PORT cloudmd.tar $USER_HOST:~/repos/cloudmd/
@@ -33,3 +33,9 @@ jobs:
       env:
         PORT: ${{ secrets.PORT }}
         USER_HOST: ${{ secrets.USER_HOST }}
+
+    # - name: Login to DockerHub
+    #   run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    
+    # - name: Push to DockerHub
+    #   run: docker push shosatojp/cloudmd:latest

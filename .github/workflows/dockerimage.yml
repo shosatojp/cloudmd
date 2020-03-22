@@ -26,10 +26,13 @@ jobs:
       run: docker save cloudmd_cloudmd:latest -o cloudmd.tar
 
     - name: Send Docker Image
-      run : scp -i ./key -p $PORT cloudmd.tar $USER_HOST:~/repos/cloudmd/cloudmd.tar
+      run : scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -P $PORT cloudmd.tar $USER_HOST:~/repos/cloudmd/cloudmd.tar
+      env:
+        PORT: ${{ secrets.PORT }}
+        USER_HOST: ${{ secrets.USER_HOST }}
 
     - name: Deploy
-      run: ssh $USER_HOST -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -P $PORT "cd repos/cloudmd && sudo docker load -i cloudmd.tar && rm cloudmd.tar && sudo docker-compose up"
+      run: ssh $USER_HOST -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -p $PORT "cd repos/cloudmd && sudo docker load -i cloudmd.tar && rm cloudmd.tar && sudo docker-compose up"
       env:
         PORT: ${{ secrets.PORT }}
         USER_HOST: ${{ secrets.USER_HOST }}

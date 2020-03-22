@@ -1,6 +1,7 @@
 # CloudMarkdown
 
 ![](https://github.com/shosatojp/cloudmd/workflows/Docker%20Image%20CI/badge.svg)
+![](https://img.shields.io/uptimerobot/status/m784594583-1fc4b86ce88ff9dae70c2326)
 
 https://cloudmd.monoid.app/
 

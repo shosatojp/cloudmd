@@ -34,8 +34,11 @@ jobs:
         PORT: ${{ secrets.PORT }}
         USER_HOST: ${{ secrets.USER_HOST }}
 
-    # - name: Login to DockerHub
-    #   run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Login to DockerHub
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     
-    # - name: Push to DockerHub
-    #   run: docker push shosatojp/cloudmd:latest
+    - name: Create Docker Tag
+      run: docker tag cloudmd_cloudmd:latest shosatojp/cloudmd:latest
+    
+    - name: Push to DockerHub
+      run: docker push shosatojp/cloudmd:latest

@@ -17,25 +17,25 @@ jobs:
     - name: Build the Docker image
       run: docker-compose build
 
-    # - name: Create Key
-    #   run: echo "$DEPLOY_SSH_KEY" > key && chmod 600 key
-    #   env:
-    #     DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+    - name: Create Key
+      run: echo "$DEPLOY_SSH_KEY" > key && chmod 600 key
+      env:
+        DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
-    # - name: Save Docker Image
-    #   run: docker save cloudmd_cloudmd:latest -o cloudmd.tar
+    - name: Save Docker Image
+      run: docker save cloudmd_cloudmd:latest -o cloudmd.tar
 
-    # - name: Send Docker Image
-    #   run : scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -P $PORT cloudmd.tar $USER_HOST:~/repos/cloudmd/cloudmd.tar
-    #   env:
-    #     PORT: ${{ secrets.PORT }}
-    #     USER_HOST: ${{ secrets.USER_HOST }}
+    - name: Send Docker Image
+      run : scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -P $PORT cloudmd.tar $USER_HOST:~/repos/cloudmd/cloudmd.tar
+      env:
+        PORT: ${{ secrets.PORT }}
+        USER_HOST: ${{ secrets.USER_HOST }}
 
-    # - name: Deploy
-    #   run: ssh $USER_HOST -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -p $PORT "cd repos/cloudmd && sudo docker load -i cloudmd.tar && rm cloudmd.tar && sudo docker-compose up -d"
-    #   env:
-    #     PORT: ${{ secrets.PORT }}
-    #     USER_HOST: ${{ secrets.USER_HOST }}
+    - name: Deploy
+      run: ssh $USER_HOST -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./key -p $PORT "cd repos/cloudmd && sudo docker load -i cloudmd.tar && rm cloudmd.tar && sudo docker-compose up -d"
+      env:
+        PORT: ${{ secrets.PORT }}
+        USER_HOST: ${{ secrets.USER_HOST }}
 
     - name: Login to DockerHub
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD

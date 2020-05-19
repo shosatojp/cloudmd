@@ -35,30 +35,24 @@ RUN update-texmf
 # RUN tlmgr install fancyvrb
 
 RUN mkdir -p /usr/share/texlive/texmf-dist/tex/latex/tools/
-RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/framed/framed.sty && \
-    mv framed.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
-RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/booktabs/booktabs.dtx
-RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/booktabs/booktabs.ins
-RUN cd /home/cloudmd && latex booktabs.ins
-RUN cd /home/cloudmd && mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
-RUN cd /home/cloudmd && rm booktabs.dtx booktabs.ins booktabs.log
-RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/caption.zip && \
-    unzip caption.zip && cd caption && latex caption.ins && \
-    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
-RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/multirow.zip && \
-    unzip multirow.zip && cd multirow && latex multirow.ins && \
-    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/framed/framed.sty
+RUN cd /home/cloudmd && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/booktabs/booktabs.dtx && \
+    wget http://mirrors.ctan.org/macros/latex/contrib/booktabs/booktabs.ins && \
+    latex booktabs.ins
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/caption.zip && unzip caption.zip && cd caption && latex caption.ins && mv *.sty ../
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/multirow.zip && unzip multirow.zip && cd multirow && latex multirow.ins && mv *.sty ../
 RUN cd /home/cloudmd && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/fancyvrb.sty && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/fancyvrb-ex.sty && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/hbaw.sty && \
     wget http://mirrors.ctan.org/macros/latex/contrib/fancyvrb/latex/hcolor.sty && \
-    wget http://mirrors.ctan.org/macros/latex/contrib/here/here.sty && \
-    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
-RUN cd /home/cloudmd && \
-    wget http://mirrors.ctan.org/macros/latex/contrib/breqn.zip && \
-    unzip breqn.zip && cd breqn && latex breqnbundle.ins && \
-    mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
+    wget http://mirrors.ctan.org/macros/latex/contrib/here/here.sty
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/breqn.zip && unzip breqn.zip && cd breqn && latex breqnbundle.ins && mv *.sty ../
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/pdftexcmds/pdftexcmds.dtx && tex pdftexcmds.dtx
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/infwarerr/infwarerr.dtx && tex infwarerr.dtx
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/pdfescape/pdfescape.dtx && tex pdfescape.dtx
+RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/bitset/bitset.dtx && tex bitset.dtx
 # RUN cd /home/cloudmd && wget http://mirrors.ctan.org/macros/latex/contrib/l3kernel.zip && \
 #     unzip l3kernel.zip && cd l3kernel && for i in *.ins;do latex $i;done && \
 #     mv * /usr/share/texlive/texmf-dist/tex/latex/tools/
@@ -69,6 +63,7 @@ RUN cd /home/cloudmd && \
 #     unzip l3experimental.zip && cd l3experimental && for i in *.ins;do latex $i;done && \
 #     mv * /usr/share/texlive/texmf-dist/tex/latex/tools/
 
+RUN cd /home/cloudmd && mv *.sty /usr/share/texlive/texmf-dist/tex/latex/tools/
 RUN mktexlsr
 
 # clone projects
@@ -76,16 +71,14 @@ USER cloudmd
 # ADD https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h skipcache
 
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-filter.git
-RUN cd /home/cloudmd/cloudmd-filter && python3 -m pip install -r requirements.txt
-
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-front.git
 RUN cd /home/cloudmd && git clone https://github.com/shosatojp/cloudmd-back.git
 RUN cd /home/cloudmd/cloudmd-front && export NG_CLI_ANALYTICS=ci && npm i && ./node_modules/.bin/ng build --prod && npm run pdfjs
-RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i
+RUN cd /home/cloudmd/cloudmd-back && export NG_CLI_ANALYTICS=ci && npm i && npm run build
 RUN cd /home/cloudmd/cloudmd-back && \
     wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1a/linux-pandoc_2_7_3.tar.gz && \
     tar xfv linux-pandoc_2_7_3.tar.gz
-RUN cd /home/cloudmd/cloudmd-back && npm run build
 
-CMD node /home/cloudmd/cloudmd-back/app/src/app.js
+RUN pip3 install pandocfilters
+CMD cd /home/cloudmd/cloudmd-back && node app/src/app.js
 EXPOSE 8080
